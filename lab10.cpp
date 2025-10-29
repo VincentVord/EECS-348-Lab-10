@@ -8,7 +8,6 @@ vector<string> split(string str, char del){
     vector<string> split_str;
     string temp = ""; //create temp string
 
-      
     for (int i=0; i<(int)str.size(); i++) { //iterate through the string
         if (str[i] != del) { //if the char is not the delimeter add it to the substring
             temp += str[i];
