@@ -33,17 +33,13 @@ bool isvalid (string num) {
         return false;
     }
 
-    if (((num[0] == '+') || (num[0] == '-')) && ((num[1] == '+') || (num[1] == '-'))) {
+    if (((num[0] == '+') || (num[0] == '-')) && (!(isdigit(num[1])))) { //checks if there is a +/- and if it is followed by a digit
         return false;
     }
 
-    for (int i=0; i<(int)num.size(); i++) {
-        if ((num[i] == '+') || (num[i] == '-')) {
-            for (int j = i; j < (int)num.size() - 1; j++) {
-                num[j] = num[j + 1]; //start at the index of the +/- and shift all other following characters to the left (removing it)
-            }
-            num.pop_back(); //remove last extra element
-            i--; //decrement the index as the next character has moved backwards by 1
+    if ((num[0] != '+') && (num[0] != '-')) { //if the first element is not +/-
+        if (!(isdigit(num[0]))) { //check if the first element is not a digit
+            return false;
         }
     }
 
@@ -60,6 +56,19 @@ bool isvalid (string num) {
         }
     }
     return true;
+}
+
+string parse (string num) {
+    for (int i=0; i<(int)num.size(); i++) {
+        if ((num[i] == '+') || (num[i] == '-')) {
+            for (int j = i; j < (int)num.size() - 1; j++) {
+                num[j] = num[j + 1]; //start at the index of the +/- and shift all other following characters to the left (removing it)
+            }
+            num.pop_back(); //remove last extra element
+            i--; //decrement the index as the next character has moved backwards by 1
+        }
+    }
+    return num;
 }
 
 int main() {
