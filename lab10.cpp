@@ -33,8 +33,8 @@ bool isvalid (string num) {
         return false;
     }
 
-    if (((num[0] == '+') || (num[0] == '-')) && ((num[1] != '+') && (num[1] != '-'))) {
-        return true;
+    if (((num[0] == '+') || (num[0] == '-')) && ((num[1] == '+') || (num[1] == '-'))) {
+        return false;
     }
 
     for (int i=0; i<(int)num.size(); i++) {
@@ -47,12 +47,18 @@ bool isvalid (string num) {
         }
     }
 
-    for (int i=0; i<num.size(); i++) {
-        if ((num[i] == '.') && (isdigit(num[i+1]))) { //check if there is a decimal point and if there is a digit after the decimal point
-            return true;
+    for (int i=0; i<num.size(); i++) { //loop through the new parsed num
+        if (num[i] == '.') { //if a '.' is found
+            if (i == 0 || i == num.size() - 1) { // Check bounds before accessing neighbors
+                return false; // decimal at start or end
+            } 
+            if (isdigit(num[i - 1]) && isdigit(num[i + 1])) {
+                return true;  // valid decimal (e.g. 12.34)
+            } else {
+                return false; // invalid decimal (e.g. .123 or 123.)
+            }
         }
     }
-
     return true;
 }
 
@@ -70,7 +76,7 @@ int main() {
 
     string line;
     while(getline(File, line)) {
-        vector<string> result = split(line, ' ');
+        vector<string> result = split(line, ' '); //returns in the format [num1, num2]
         cout << result[0] << endl;
         cout << isvalid(result[0]) << endl;
         cout << result[1] << endl;
